@@ -24,9 +24,10 @@ def solution(board, r, c):
                 a1, a2 = search(tmp_board, cur_loc, v1)
                 b1, b2 = search(tmp_board, cur_loc, v2)
                 c1, c2 = search(tmp_board, v1, v2)
-
-                li[0]+=[a1, b1]
-                li[1]+=[cur_cnt+a2+c2, cur_cnt+b2+c2]
+                d1, d2 = search(tmp_board, v2, v1)
+                
+                li[0]+=[v2, v1]
+                li[1]+=[cur_cnt+a2+c2+2, cur_cnt+b2+d2+2]
             tmp_li = li
             tmp_board[loc[num][0][0]][loc[num][0][1]] = 0
             tmp_board[loc[num][1][0]][loc[num][1][1]] = 0
@@ -34,10 +35,19 @@ def solution(board, r, c):
         if min_count > min(tmp_li[1]):
             min_count = min(tmp_li[1])
 
-    return min_count+2*len(loc.keys())
+    return min_count
             
                  
-
+def ctrl_move(r, c, dr, dc, board):
+    while True:
+        r += dr
+        c += dc
+        if 0 <= r < 4 and 0 <= c < 4:
+            if board[r][c] != 0:
+                return r, c
+        else:
+            return r - dr, c - dc
+        
 # 한지점에서 한지점 최단거리 구하기
 MOVE = {(0,1),(0,-1),(1,0),(-1,0)}
 def search(board, start, arrive):
@@ -48,33 +58,15 @@ def search(board, start, arrive):
         r, c, cnt = queue.popleft()
         if (r, c) == arrive:
             return (r,c), cnt
-        if (r, c) in visited:
+        elif (r, c) in visited:
             continue
         else:
             visited.add((r,c))
         for next_r, next_c in MOVE:
-            if 0<=(r+next_r)<4 and 0<=(c+next_c)<4:
+            nr, nc = r+next_r, c+next_c
+            if 0<=nr<4 and 0<=nc<4:
                 #근처로 이동
-                queue.append((r+next_r, c+next_c, cnt+1))
-            else:
-                continue
-
-            i=1
-            while True:
-                if r+next_r*i>=4:
-                    queue.append((3, c, cnt+1))
-                    break
-                elif r+next_r*i<=-1:
-                    queue.append((0, c, cnt+1))
-                    break
-                elif c+next_c*i>=4:
-                    queue.append((r, 3, cnt+1))
-                    break
-                elif c+next_c*i<=-1:
-                    queue.append((r, 0, cnt+1))
-                    break
-                elif board[r+next_r*i][c+next_c*i] != 0:
-                    queue.append((r+next_r*i, c+next_c*i, cnt+1))
-                    break
-                else:
-                    i+=1
+                queue.append((nr, nc, cnt+1))
+                cr, cc = ctrl_move(r,c,next_r,next_c,board)
+                queue.append((cr,cc,cnt+1))
+            

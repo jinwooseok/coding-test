@@ -41,7 +41,7 @@ public class Main_14442 {
             Status curStatus = deque.pollFirst();
             //만약 현재위치가 끝인 경우 return
             if (curStatus.r==rowSize-1 && curStatus.c==colSize-1) {
-                return dist[rowSize - 1][colSize - 1][curStatus.broken];
+                return dist[rowSize - 1][colSize - 1][curStatus.broken]+1;
             }
             //그렇지 않음 경우 다음 위치 찾기 진행
             for (int[] move:MOVE) {

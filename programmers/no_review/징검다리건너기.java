@@ -1,5 +1,5 @@
 import java.util.*;
-class Solution {
+public class 징검다리건너기 {
     public int solution(int[] stones, int k) {
         //이분탐색
         int left = 0;

@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Solution {
+class 자물쇠와열쇠 {
     public boolean solution(int[][] key, int[][] lock) {
         int N = lock.length;
         int M = key.length;

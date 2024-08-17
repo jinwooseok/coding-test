@@ -1,5 +1,5 @@
 import java.util.*;
-class Solution {
+public class 블록이동하기 {
     int[][] field;
     int[][] CATEGORY={{1,1},{1,2},{2,1},{2,2}};
     int[][] MOVE={{0,1},{1,0},{-1,0},{0,-1}};

@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Solution {
+class 방의개수 {
     int[][] MOVE = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
 
     public int solution(int[] arrows) {

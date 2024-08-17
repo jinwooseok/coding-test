@@ -1,5 +1,5 @@
 import java.util.*;
-class Solution {
+class 등대 {
     int result=0;
     public int solution(int n, int[][] lighthouse) {
         //힙에 연결된 노드 개수를 저장해두는 것도 필요할 듯

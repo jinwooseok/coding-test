@@ -25,29 +25,24 @@ public class Solution_5215 {
 				arr[i][0] = Integer.parseInt(st.nextToken());
 				arr[i][1] = Integer.parseInt(st.nextToken());
 			}
-			int maxCnt = 0;
-			for (int i=elementCnt;i>0;i--) {
-				 maxCnt = Math.max(maxCnt, combination(arr, 0, 0, i, 0, 0, 0,limitKcal));
-			}
-			System.out.println("#"+t+" "+maxCnt);
+
+			System.out.println("#"+t+" "+combination(arr, 0, 0, 0, 0, 0,limitKcal));
 		}
-		
+
 	}
-	public static int combination(int[][] arr, int startIdx, int depth, int r, int scoreSum, int kcalSum, int maxScore, int limitKcal) {
+	public static int combination(int[][] arr, int startIdx, int depth, int scoreSum, int kcalSum, int maxScore, int limitKcal) {
 		if (kcalSum > limitKcal) {
 			return maxScore;
 		}
-		if (depth==r) {
+		if (depth==arr.length) {
 			if (maxScore < scoreSum) {
 				maxScore = scoreSum;
 			}
 			return maxScore;
 		} else {
-			for (int i=startIdx;i<arr.length;i++) {
-				maxScore = combination(arr, i+1, depth+1, r, scoreSum+arr[i][0], kcalSum+arr[i][1], maxScore, limitKcal);
-			}
+			maxScore = combination(arr, startIdx+1, depth+1, scoreSum+arr[startIdx][0], kcalSum+arr[startIdx][1], maxScore, limitKcal);
+			maxScore = combination(arr, startIdx+1, depth+1, scoreSum, kcalSum, maxScore, limitKcal);
 		}
 		return maxScore;
 	}
-	
 }

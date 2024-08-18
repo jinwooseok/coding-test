@@ -56,6 +56,7 @@ public class Main_14502 {
             return Math.max(safeCnt1,safeCnt2);
         }
     }
+    //조합 이후 바이러스 시뮬레이션
     private static int virusSimulation(int[][] areas, List<int[]> virusAreas){
         int[][] copyAreas = new int[areas.length][areas[0].length];
         for (int i=0;i<areas.length;i++) {
@@ -69,6 +70,7 @@ public class Main_14502 {
         }
         return searchSafeAreas(copyAreas);
     }
+    //바이러스 퍼지는거 구현
     private static void dfs(int[][] areas, int virusR, int virusC) {
         if (virusR<0 || virusR>=areas.length || virusC<0 || virusC>=areas[0].length || areas[virusR][virusC]==1 || areas[virusR][virusC]==2) {
             return;
@@ -79,6 +81,7 @@ public class Main_14502 {
         dfs(areas, virusR, virusC-1);
         dfs(areas, virusR-1, virusC);
     }
+    // 바이러스 시뮬레이션 이후 안전구역찾기
     private static int searchSafeAreas(int[][] areas){
         //안전구역의 개수를 세는 함수
         int safeCnt = 0;

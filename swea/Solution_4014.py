@@ -25,6 +25,7 @@
 #한줄을 기준으로 검사하는 함수
 def check(line, loadWidth):
     print(line)
+    last_load = -1
     for i in range(len(line)-1):
         #높이차이가 단번에 2개이상
         if abs(line[i]-line[i+1])>1:
@@ -33,16 +34,23 @@ def check(line, loadWidth):
         elif line[i]-line[i+1]==1:
             if i+loadWidth>=len(line):
                 return False
-            #경사로가 지형밖으로 벗어남.
-            if abs(line[i]-line[i+loadWidth])>1:
-                return False
+            #경사로가 더 높은 곳과 겹치거나 벗어남
+            for j in range(1,loadWidth):
+                if (line[i+1]!=line[i+1+j]):
+                   # print(1)
+                    return False
+            last_load = i+loadWidth
         elif line[i+1]-line[i]==1:
-            if loadWidth>i:
+            if i+1-loadWidth <=last_load:
                 return False
-            #경사로가 지형밖으로 벗어남.
-            if abs(line[i]-line[i-loadWidth])>1:
+            if loadWidth>i+1:
                 return False
+            #경사로가 더 높은 곳과 겹치거나 벗어남
+            for j in range(1,loadWidth):
+                if (line[i]!=line[i-j]):
+                    return False
         #높이차이가 0이거나 위의 조건을 통과한다면 return True
+
     return True 
 
 #입력 받기
@@ -58,11 +66,12 @@ for t in range(T):
     #검사받을 한 줄을 선택(행)
     for i in range(N):
         cnt+=check(arr[i], loadWidth)
-
+        print(cnt)
     new_arr = [0]*N
     #검사받을 한줄을 선택(열)
     for i in range(N):
         for j in range(N):
             new_arr[j] = arr[j][i]
         cnt+=check(new_arr, loadWidth)
+        print(cnt)
     print(f"#{t+1} {cnt}")

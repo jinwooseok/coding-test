@@ -50,7 +50,7 @@ public class Solution_2105 {
             }
         }
     }
-    // 방향 정해짐. 
+    // 방향 정해짐.
 
     private static void findMaxDessert(int[][] arr, int r, int c, int width, int height, int dessertCnt, boolean[] visited, int level) {
         // 범위 체크

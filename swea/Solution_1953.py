@@ -55,7 +55,6 @@ def dfs(arr:int, visited:list, dp:list, r:int, c:int, depth:int, R:int):
     if depth == R:
         return
     #for문은 move로 부터 방향 리스트를 전달받고 해당위치에서 가능한 것에 따라 for문.
-    cnt = 0
     for direction in move(arr[r][c]):
         nr, nc = r+MOVE[direction][0], c+MOVE[direction][1]
         #배열 벗어난 경우

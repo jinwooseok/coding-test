@@ -32,44 +32,44 @@ for i in range(K):
     arr.append(list(map(int,input().split())))
 
 max_num = 0
-for i in range(K):
-    x = arr[i][0]
-    y = arr[i][1]
-    for j in range(K):
-        trampolines = [0]*4
-        for m in range(K):
-            if x<=arr[m][0]<=x+L and y<=arr[m][1]<=y+L:
-                trampolines[0]+=1
-            if x<=arr[m][0]<=x+L and y-L<=arr[m][1]<=y:
-                trampolines[1]+=1
-            if x-L<=arr[m][0]<=x and y<=arr[m][1]<=y+L:
-                trampolines[2]+=1
-            if x-L<=arr[m][0]<=x and y-L<=arr[m][1]<=y:
-                trampolines[3]+=1
+# for i in range(K):
+#     x = arr[i][0]
+#     y = arr[i][1]
+#     for j in range(K):
+#         trampolines = [0]*4
+#         for m in range(K):
+#             if x<=arr[m][0]<=x+L and y<=arr[m][1]<=y+L:
+#                 trampolines[0]+=1
+#             if x<=arr[m][0]<=x+L and y-L<=arr[m][1]<=y:
+#                 trampolines[1]+=1
+#             if x-L<=arr[m][0]<=x and y<=arr[m][1]<=y+L:
+#                 trampolines[2]+=1
+#             if x-L<=arr[m][0]<=x and y-L<=arr[m][1]<=y:
+#                 trampolines[3]+=1
     
-        max_num = max(max_num, max(trampolines))
+#         max_num = max(max_num, max(trampolines))
         
 for i in range(K):
-    for j in range(i+1,K):
+    for j in range(K):
         x1 = arr[i][0]
         y1 = arr[i][1]
         x2 = arr[j][0]
         y2 = arr[j][1]
-        for k in (x1,x2):
-            for l in (y1,y2):
-                x=k
-                y=l
-                trampolines = [0]*4
-                for m in range(K):
-                    if x<=arr[m][0]<=x+L and y<=arr[m][1]<=y+L:
-                        trampolines[0]+=1
-                    if x<=arr[m][0]<=x+L and y-L<=arr[m][1]<=y:
-                        trampolines[1]+=1
-                    if x-L<=arr[m][0]<=x and y<=arr[m][1]<=y+L:
-                        trampolines[2]+=1
-                    if x-L<=arr[m][0]<=x and y-L<=arr[m][1]<=y:
-                        trampolines[3]+=1
-                #print(trampolines
-                max_num = max(max_num, max(trampolines))
+        # for k in (x1,x2):
+        #     for l in (y1,y2):
+        x=min(x1,x2)
+        y=min(y1,y2)
+        trampolines = 0
+        for m in range(K):
+            if x<=arr[m][0]<=x+L and y<=arr[m][1]<=y+L:
+                trampolines+=1
+            # if x<=arr[m][0]<=x+L and y-L<=arr[m][1]<=y:
+            #     trampolines[1]+=1
+            # if x-L<=arr[m][0]<=x and y<=arr[m][1]<=y+L:
+            #     trampolines[2]+=1
+            # if x-L<=arr[m][0]<=x and y-L<=arr[m][1]<=y:
+            #     trampolines[3]+=1
+        #print(trampolines
+        max_num = max(max_num, trampolines)
     
 print(K-max_num)

@@ -1,0 +1,111 @@
+import java.io.*;
+import java.util.*;
+public class Main_16919 {
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int R = Integer.parseInt(st.nextToken());
+		int C = Integer.parseInt(st.nextToken());
+		long N = Long.parseLong(st.nextToken());
+		
+		char[][] arr = new char[R][C];
+		for (int i=0;i<R;i++) {
+			arr[i] = br.readLine().toCharArray();
+		}
+		
+		Queue<int[]> q = new LinkedList<>();
+		int[][] MOVE = {{0,0},{0,1},{1,0},{0,-1},{-1,0}};
+		char[][][] states = new char[4][R][C];
+		
+		//1초
+		char[][] newarr = new char[R][C];
+
+		//2초	
+		newarr = new char[R][C];
+		for (int j=0;j<R;j++) {
+			newarr[j] = Arrays.copyOf(arr[j], C);
+		}
+		for (int i=0;i<R;i++) {
+			for (int j=0;j<C;j++) {
+				if (newarr[i][j]=='O') {						
+					q.add(new int[] {i,j});
+				} else {
+					newarr[i][j]='O';					
+				}
+			}
+		}
+		states[0] = newarr;
+		//3.큐에 현재 폭탄 넣기 터질때 모든칸에 폭탄 설치.
+		newarr = new char[R][C];
+		for (int j=0;j<R;j++) {
+			newarr[j] = Arrays.copyOf(states[0][j], C);
+		}
+		while (!q.isEmpty()) {
+			int[] bomb = q.poll();
+			for (int[] move:MOVE) {
+				int nr = bomb[0]+move[0];
+				int nc = bomb[1]+move[1];
+				if (nr<0 || nc<0 || nr>=R || nc>=C) {
+					continue;
+				}
+				newarr[nr][nc] = '.';
+			}
+		}	
+		states[1] = newarr;
+		// 4. 
+		newarr = new char[R][C];
+		for (int j=0;j<R;j++) {
+			newarr[j] = Arrays.copyOf(states[1][j], C);
+		}
+		for (int i=0;i<R;i++) {
+			for (int j=0;j<C;j++) {
+				if (newarr[i][j]=='O') {						
+					q.add(new int[] {i,j});
+				} else {
+					newarr[i][j]='O';					
+				}
+			}
+		}
+		states[2] = newarr;
+		//5.
+        newarr = new char[R][C];
+		for (int j=0;j<R;j++) {
+			newarr[j] = Arrays.copyOf(states[2][j], C);
+		}
+		while (!q.isEmpty()) {
+			int[] bomb = q.poll();
+			for (int[] move:MOVE) {
+				int nr = bomb[0]+move[0];
+				int nc = bomb[1]+move[1];
+				if (nr<0 || nc<0 || nr>=R || nc>=C) {
+					continue;
+				}
+				newarr[nr][nc] = '.';
+			}
+		}	
+        states[3] = newarr;
+		
+        //1초부터 N초까지
+		
+		StringBuilder sb = new StringBuilder();
+        if (N==1) {
+            for (int i=0;i<R;i++) {
+			    for (int j=0;j<C;j++) {
+                    sb.append(arr[i][j]);
+			    }
+			    sb.append("\n");
+		    }
+        } else {
+            for (int i=0;i<R;i++) {
+			    for (int j=0;j<C;j++) {
+                    sb.append(states[(int)(N-2)%4][i][j]);
+			    }
+			    sb.append("\n");
+		    }    
+        }
+        
+		System.out.println(sb);
+		
+	}
+}

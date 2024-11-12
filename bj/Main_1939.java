@@ -1,95 +1,83 @@
-import java.io.*;
-import java.util.*;
- 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
 public class Main_1939 {
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringTokenizer st;
-    static StringBuilder sb = new StringBuilder();
-    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    
-    static int FROM, TO;
-    static int N,M;
-    static int[] weights;
-    static int INF = 1_000_000_001;
-    static List<Bridge>[] bridges;
+    /*
+     * 몇개의 섬에만 다리가 설치되어 있음. 섬 최대 10000개
+     * 공장은 두개의 섬에만 세워둠. 공장끼리 물품 수송
+     * 다리마다 중량제한이 있음.
+     * 공장에서 공장까지 가는데 최소가 최대가 되어야함?
+     * 가중치가 큰것부터 나열해야 함.
+     * M은 최대 100000. 다리 중량도 함께 주어짐.
+     * 다익스트라
+     */
+    public static void main(String[] args) throws IOException {
+        // TODO Auto-generated method stub
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
 
-    public static void main(String[] args) throws Exception {
-        input();
-        run();
-        print();
-    }
-    
-    static void run() throws Exception {
-        PriorityQueue<Bridge> queue = new PriorityQueue<>();
-        queue.offer(new Bridge(FROM, INF));
-        weights[FROM] = INF;
+        Map<Integer, List<Edge>> adjList = new HashMap<>();
+        for (int i=0;i<M;i++) {
+            st = new StringTokenizer(br.readLine());
+            int start = Integer.parseInt(st.nextToken());
+            int end = Integer.parseInt(st.nextToken());
+            int dist = Integer.parseInt(st.nextToken());
+            adjList.putIfAbsent(start, new ArrayList<>());
+            adjList.putIfAbsent(end, new ArrayList<>());
+            adjList.get(start).add(new Edge(end, dist));
+            adjList.get(end).add(new Edge(start, dist));
+        }
+        st = new StringTokenizer(br.readLine());
+        int factory1 = Integer.parseInt(st.nextToken());
+        int factory2 = Integer.parseInt(st.nextToken());
 
-        while(!queue.isEmpty()){
-            Bridge now = queue.poll();
-            if(now.weight < weights[now.idx])
+        boolean[] visited = new boolean[N+1];
+        PriorityQueue<Edge> edges = new PriorityQueue<>();
+        edges.add(new Edge(factory1,0));
+        int minWeight = Integer.MAX_VALUE;
+        while (true) {
+            Edge edge = edges.poll();
+            if (edge.dist != 0) {
+                minWeight = Math.min(edge.dist, minWeight);
+            }
+            if (!visited[edge.v]) {
+                visited[edge.v] = true;
+            } else {
                 continue;
+            }
+            if (visited[factory2]) {
+                break;
+            }
 
-            for(Bridge to : bridges[now.idx]){
-                int nWeight = Math.min(now.weight, to.weight);
-
-                if(weights[to.idx] < nWeight){
-                    weights[to.idx] = nWeight;
-                    queue.offer(new Bridge(to.idx, nWeight));
-                }
+            for (Edge e:adjList.get(edge.v)) {
+                edges.add(e);
             }
         }
-        // System.out.println(Arrays.toString(weights));
+
+        System.out.println(minWeight);
     }
+    static class Edge implements Comparable<Edge> {
+        int v;
+        int dist;
 
-    static void input() throws Exception {
-        st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-
-        weights = new int[N+1];
-        bridges = new List[N+1];
-
-        for(int n = 1; n <= N; n++){
-            bridges[n] = new ArrayList<>();
-        }
-
-        for(int m = 0; m < M; m++){
-            st = new StringTokenizer(br.readLine());
-            int from = Integer.parseInt(st.nextToken());
-            int to = Integer.parseInt(st.nextToken());
-            int weight = Integer.parseInt(st.nextToken());
-
-            bridges[from].add(new Bridge(to, weight));
-            bridges[to].add(new Bridge(from, weight));
-        }
-
-        st = new StringTokenizer(br.readLine());
-        FROM = Integer.parseInt(st.nextToken());
-        TO = Integer.parseInt(st.nextToken());
-
-    }
-    
-    static void print() throws Exception {
-        System.out.println(weights[TO]);
-    }
-
-    static class Bridge implements Comparable<Bridge>{
-        int idx, weight;
-
-        public Bridge(int idx, int weight) {
-            this.idx = idx;
-            this.weight = weight;
+        public Edge(int v, int dist) {
+            this.v = v;
+            this.dist = dist;
         }
 
         @Override
-        public String toString() {
-            return "Bridge [idx=" + idx + ", weight=" + weight + "]";
+        public int compareTo(Edge o) {
+            return o.dist-this.dist;
         }
-
-        @Override
-        public int compareTo(Main.Bridge o) {
-            return o.weight - this.weight;
-        }
-
     }
+
 }

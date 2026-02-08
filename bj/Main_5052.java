@@ -49,3 +49,7 @@ public class Main_5052 {
 		System.out.println(resultSb);
 	}
 }
+
+// 1 11 111 1111 11111 111111 저장할때
+// 111111
+// xxxxxx

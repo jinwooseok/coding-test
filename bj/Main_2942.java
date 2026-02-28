@@ -12,8 +12,14 @@ public class Main_2942 {
 		long low = Math.min(x,y);
 		long max = Math.max(x,y);
 		StringBuilder sb = new StringBuilder();
-		long maxNum=gcd(max, low);
-		for (long i=1;i<=Math.sqrt(maxNum);i++) {
+		long tmp;
+		while(low>0) {
+			tmp = max%low;
+			max = low;
+			low = tmp;
+		}
+		double sq = Math.sqrt(max);
+		for (long i=1;i<=sq;i++) {
 			if (x%i==0 && y%i==0) {
 				sb.append(i)
 					.append(" ")
@@ -21,20 +27,15 @@ public class Main_2942 {
 					.append(" ")
 					.append(y/i)
 					.append("\n");
-				if (i==maxNum/i) continue;
-				sb.append(maxNum/i)
+				if (i==max/i) continue;
+				sb.append(max/i)
 					.append(" ")
-					.append(x/(maxNum/i))
+					.append(x/(max/i))
 					.append(" ")
-					.append(y/(maxNum/i))
+					.append(y/(max/i))
 					.append("\n");
 			}
 		}
 		System.out.println(sb);
-	}
-
-	public static long gcd(long high, long low) {
-		if (low == 0) return high;
-		return gcd(low,high%low);
 	}
 }

@@ -21,8 +21,6 @@ public class Main_22866 {
 	우선 arr에 결과를 저장하는데, 우선 개수 저장 및 가장 가까운 건물 번호를 저장
 	건물 번호는 좌우로 하면서 스택에서 가장 처음 뽑힌 것 중 절대값 작은거.
 
-
-
 	 */
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
